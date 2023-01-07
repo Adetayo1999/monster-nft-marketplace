@@ -13,6 +13,7 @@ import {
 } from "wagmi/chains";
 // import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -46,13 +47,20 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
+const apolloClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: "https://api.studio.thegraph.com/query/40062/nft-marketplace/v1.0.0",
+});
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ApolloProvider client={apolloClient}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ApolloProvider>
   );
 }
 
