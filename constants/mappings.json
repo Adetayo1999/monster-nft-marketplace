@@ -1,0 +1,10 @@
+{
+  "5": {
+    "nftMarketPlaceAddress": "0xcF0e257ecfBce28f47d2d6ADCecA6C7a24A3093C",
+    "monsterNFTAddress": "0xe6Db7782509262CE1f044298195B8ECc82cc5B78"
+  },
+  "31337": {
+    "nftMarketPlaceAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "monsterNFTAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  }
+}

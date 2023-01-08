@@ -10,3 +10,7 @@ body {
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+body {
+  @apply bg-slate-200;
+}

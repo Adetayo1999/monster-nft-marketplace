@@ -14,6 +14,11 @@ import {
 // import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
+import { Toaster } from "react-hot-toast";
+import { Header } from "../components/header";
+import ListingProvider from "../context/listing-context";
+import ListingModalProvider from "../context/listing-modal";
+import { ListingModal } from "../components/listing-modal";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -49,7 +54,7 @@ const wagmiClient = createClient({
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: "https://api.studio.thegraph.com/query/40062/nft-marketplace/v1.0.0",
+  uri: "https://api.studio.thegraph.com/query/40062/nft-marketplace/v1.1.0",
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -57,7 +62,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />
+          <ListingProvider>
+            <ListingModalProvider>
+              <ListingModal />
+              <Toaster position="top-right" />
+              <Header />
+              <div className="w-[90%] mx-auto">
+                <Component {...pageProps} />
+              </div>
+            </ListingModalProvider>
+          </ListingProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ApolloProvider>

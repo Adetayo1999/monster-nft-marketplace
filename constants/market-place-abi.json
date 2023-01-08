@@ -1,0 +1,166 @@
+[
+  {
+    "type": "error",
+    "name": "NftMarketPlace__InvalidPriceSent",
+    "inputs": [
+      { "type": "address" },
+      { "type": "uint256" },
+      { "type": "uint256" },
+      { "type": "address" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NftMarketPlace__NFTNotApprovedForSale",
+    "inputs": []
+  },
+  { "type": "error", "name": "NftMarketPlace__NftListed", "inputs": [] },
+  { "type": "error", "name": "NftMarketPlace__NftNotListed", "inputs": [] },
+  {
+    "type": "error",
+    "name": "NftMarketPlace__NotEnoughETH",
+    "inputs": [
+      { "type": "address" },
+      { "type": "uint256" },
+      { "type": "uint256" },
+      { "type": "uint256" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NftMarketPlace__NotEnoughProceeds",
+    "inputs": []
+  },
+  { "type": "error", "name": "NftMarketPlace__NotNftOwner", "inputs": [] },
+  {
+    "type": "error",
+    "name": "NftMarketPlace__ProceedsWithdrawalFailed",
+    "inputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "NFTBought",
+    "inputs": [
+      { "type": "address", "name": "seller", "indexed": true },
+      { "type": "address", "name": "buyer", "indexed": true },
+      { "type": "uint256", "name": "tokenId", "indexed": true },
+      { "type": "address", "name": "nftAddress", "indexed": false },
+      { "type": "uint256", "name": "price", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "NFTListed",
+    "inputs": [
+      { "type": "address", "name": "seller", "indexed": true },
+      { "type": "uint256", "name": "tokenId", "indexed": true },
+      { "type": "address", "name": "nftAddress", "indexed": true },
+      { "type": "uint256", "name": "price", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "NFTListingCancelled",
+    "inputs": [
+      { "type": "address", "name": "owner", "indexed": true },
+      { "type": "uint256", "name": "tokenId", "indexed": true },
+      { "type": "address", "name": "nftAddress", "indexed": true }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "buyItem",
+    "constant": false,
+    "stateMutability": "payable",
+    "payable": true,
+    "gas": 29000000,
+    "inputs": [
+      { "type": "uint256", "name": "_tokenId" },
+      { "type": "address", "name": "_nftAddress" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "cancelListing",
+    "constant": false,
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [
+      { "type": "uint256", "name": "_tokenId" },
+      { "type": "address", "name": "_nftAddress" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "getListing",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [
+      { "type": "address", "name": "_nftAddress" },
+      { "type": "uint256", "name": "_tokenId" }
+    ],
+    "outputs": [
+      {
+        "type": "tuple",
+        "components": [
+          { "type": "uint256", "name": "tokenId" },
+          { "type": "uint256", "name": "price" },
+          { "type": "address", "name": "nftAddress" },
+          { "type": "address", "name": "owner" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getProceed",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [],
+    "outputs": [{ "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "listItem",
+    "constant": false,
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [
+      { "type": "uint256", "name": "_tokenId" },
+      { "type": "address", "name": "_nftAddress" },
+      { "type": "uint256", "name": "_price" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateListing",
+    "constant": false,
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [
+      { "type": "uint256", "name": "_price" },
+      { "type": "uint256", "name": "_tokenId" },
+      { "type": "address", "name": "_nftAddress" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "withdrawProceeds",
+    "constant": false,
+    "payable": false,
+    "gas": 29000000,
+    "inputs": [],
+    "outputs": []
+  }
+]
