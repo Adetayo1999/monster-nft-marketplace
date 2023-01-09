@@ -3,14 +3,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  goerli,
-  polygonMumbai,
-} from "wagmi/chains";
+import { goerli } from "wagmi/chains";
 // import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
@@ -21,15 +14,7 @@ import ListingModalProvider from "../context/listing-modal";
 import { ListingModal } from "../components/listing-modal";
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-      ? [goerli, polygonMumbai]
-      : []),
-  ],
+  [goerli],
   [
     // alchemyProvider({
     //   // This is Alchemy's default API key.
