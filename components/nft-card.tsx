@@ -17,28 +17,28 @@ import monsterNFTABI from "../constants/monster-nft-abi.json";
 
 export const NFTCard = ({ price, seller, tokenId }: NFTCardProps) => {
   const { chain } = useNetwork();
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const chainID = useMemo(() => chain?.id || "5", [chain?.id]);
   const networkMappings: MappingTypes = mappings;
-  const { monsterNFTAddress, nftMarketPlaceAddress } = networkMappings[chainID];
+  const networkAddresses = networkMappings[chainID];
   const [loading, setLoading] = useState(false);
   const [metaData, setMetaData] = useState<any>({});
 
   const { config: buyItemConfig } = usePrepareContractWrite({
-    address: nftMarketPlaceAddress,
+    address: networkAddresses?.nftMarketPlaceAddress,
     abi: marketPlaceABI,
     functionName: "buyItem",
-    args: [tokenId, monsterNFTAddress],
+    args: [tokenId, networkAddresses?.monsterNFTAddress],
     overrides: {
       value: ethers.utils.parseEther(ethers.utils.formatUnits(price, "ether")),
     },
   });
 
   const { config: cancelItemConfig } = usePrepareContractWrite({
-    address: nftMarketPlaceAddress,
+    address: networkAddresses?.nftMarketPlaceAddress,
     abi: marketPlaceABI,
     functionName: "cancelListing",
-    args: [tokenId, monsterNFTAddress],
+    args: [tokenId, networkAddresses?.monsterNFTAddress],
     overrides: {
       from: address,
     },
@@ -115,7 +115,7 @@ export const NFTCard = ({ price, seller, tokenId }: NFTCardProps) => {
   };
 
   const { data, isLoading } = useContractRead({
-    address: monsterNFTAddress,
+    address: networkAddresses?.monsterNFTAddress,
     functionName: "tokenURI",
     args: [tokenId],
     abi: monsterNFTABI,
@@ -160,6 +160,7 @@ export const NFTCard = ({ price, seller, tokenId }: NFTCardProps) => {
             <button
               className="text-sm px-4 py-2 rounded shadow-sm bg-red-600 text-slate-100 w-full font-medium transition hover:bg-red-700"
               onClick={handleCancelItem}
+              disabled={!isConnected || chainID !== 5}
             >
               {isHandleCancelItemLoading || isCancelItemConfirmationLoading
                 ? "Please wait"
@@ -167,8 +168,11 @@ export const NFTCard = ({ price, seller, tokenId }: NFTCardProps) => {
             </button>
           ) : (
             <button
-              className="text-sm px-4 py-2 rounded shadow-sm bg-purple-600 text-slate-100 w-full font-medium transition hover:bg-purple-700"
+              className={`text-sm px-4 py-2 rounded shadow-sm bg-purple-600 text-slate-100 w-full font-medium transition hover:bg-purple-700 ${
+                (!isConnected || chainID !== 5) && "cursor-not-allowed"
+              }`}
               onClick={handleBuyItem}
+              disabled={!isConnected || chainID !== 5}
             >
               {isHandleBuyItemLoading || isBuyItemConfirmationLoading
                 ? "Please wait"

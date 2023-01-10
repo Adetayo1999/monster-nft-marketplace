@@ -25,6 +25,7 @@ export const MyNFTs = () => {
   const { data, loading, error } = useQuery(GET_MY_NFTS, {
     variables: { buyer: address },
     client: customClient,
+    skip: !address,
   });
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export const MyNFTs = () => {
       {data?.monsterNFTNFTMinteds?.length === 0 && (
         <p className="text-left w-full">You Don't Have NFTs</p>
       )}
+      {!address && "hello world"}
     </div>
   );
 };

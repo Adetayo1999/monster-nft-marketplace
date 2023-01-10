@@ -15,35 +15,43 @@ import { useListingModal } from "../context/listing-modal";
 import { MappingTypes } from "../types";
 
 export const ListingModal = () => {
+  const { chain } = useNetwork();
   const [price, setPrice] = useState("");
   const { modalStatus, setModalStatus, tokenId } = useListingModal();
-  const { chain } = useNetwork();
   const chainID = useMemo(() => chain?.id || "5", [chain?.id]);
   const networkMappings: MappingTypes = mappings;
-  const { nftMarketPlaceAddress, monsterNFTAddress } = networkMappings[chainID];
+  const networkAddresses = networkMappings[chainID];
 
   const isOpen = modalStatus === "create" || modalStatus === "update";
   const closeModal = () => setModalStatus("close");
 
   const { config: approveItemConfig } = usePrepareContractWrite({
-    address: monsterNFTAddress,
+    address: networkAddresses?.monsterNFTAddress,
     abi: monsterNFTABI,
     functionName: "approve",
-    args: [nftMarketPlaceAddress, tokenId],
+    args: [networkAddresses?.nftMarketPlaceAddress, tokenId],
   });
 
   const { config: listItemConfig } = usePrepareContractWrite({
-    address: nftMarketPlaceAddress,
+    address: networkAddresses?.nftMarketPlaceAddress,
     abi: marketPlaceABI,
     functionName: "listItem",
-    args: [tokenId, monsterNFTAddress, ethers.utils.parseEther(price || "0")],
+    args: [
+      tokenId,
+      networkAddresses?.monsterNFTAddress,
+      ethers.utils.parseEther(price || "0"),
+    ],
   });
 
   const { config: updateItemConfig } = usePrepareContractWrite({
-    address: nftMarketPlaceAddress,
+    address: networkAddresses?.nftMarketPlaceAddress,
     abi: marketPlaceABI,
     functionName: "updateListing",
-    args: [ethers.utils.parseEther(price || "0"), tokenId, monsterNFTAddress],
+    args: [
+      ethers.utils.parseEther(price || "0"),
+      tokenId,
+      networkAddresses?.monsterNFTAddress,
+    ],
   });
 
   const {
@@ -205,7 +213,7 @@ export const ListingModal = () => {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-purple-100 px-4 py-2 text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-purple-100 px-4 py-2 text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 capitalize cursor-pointer"
                     onClick={
                       modalStatus === "create"
                         ? handleListItem
@@ -215,7 +223,7 @@ export const ListingModal = () => {
                     }
                     disabled={!price}
                   >
-                    Got it, thanks!
+                    {modalStatus}
                   </button>
                 </div>
               </Dialog.Panel>

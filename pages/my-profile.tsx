@@ -1,7 +1,18 @@
 import { NextPage } from "next";
+import { useNetwork } from "wagmi";
 import { MyNFTs } from "../components/my-nfts";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const Profile: NextPage = () => {
+  const { chain } = useNetwork();
+
+  useEffect(() => {
+    if (chain?.network && chain?.network !== "goerli") {
+      toast.error("Only Goerli Testnets supported");
+    }
+  }, [chain?.network]);
+
   return (
     <div className="">
       <h1 className="mb-4 font-semibold text-slate-800">My NFTS</h1>
