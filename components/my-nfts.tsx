@@ -48,9 +48,8 @@ export const MyNFTs = () => {
         <MyNFT key={item.id} tokenId={item.tokenId} />
       ))}
       {data?.monsterNFTNFTMinteds?.length === 0 && (
-        <p className="text-left w-full">You Don't Have NFTs</p>
+        <p className="text-left w-full">You Don&apos;t Have NFTs</p>
       )}
-      {!address && "hello world"}
     </div>
   );
 };
